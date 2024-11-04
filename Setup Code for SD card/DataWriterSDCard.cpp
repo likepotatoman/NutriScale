@@ -1,7 +1,6 @@
 #include <SD.h>
 #include <SPI.h>
 
-
 const int CS_pin = 43;
 int num_ligne = 1;    // Line number to read
 String phrase = "";
@@ -55,6 +54,9 @@ void loop() {
     directoryPath = directoryPath+"/"+lettre;
 }
 File NewFile = SD.open(directoryPath+"/"+firstWord, FILE_WRITE);
+
+//I need to add a line by line thing here instead of just writing down all the data
+    
 NewFile.println(phrase);
 NewFile.close();
 Serial.println(phrase);
