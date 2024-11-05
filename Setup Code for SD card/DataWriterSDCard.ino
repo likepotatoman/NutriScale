@@ -2,6 +2,8 @@
 #include <SPI.h>
 
 const int CS_pin = 43;
+int longeur_data = 8 //nombre d'element dans une ligne
+int nombre_total_ligne = 40 //nombre total de ligne qui vont etre inprime
 int num_ligne = 1;    // Line number to read
 String phrase = "";
 
@@ -16,7 +18,7 @@ void setup() {
 
 void loop() {
   //isolement de la premiere phrase
-  if(num_ligne <=40){
+  if(num_ligne <= nombre_total_ligne){
   File dataFile = SD.open("PRACTICE.txt",FILE_READ);
   if (dataFile) {
     int ligne_actuelle = 1;     // Current line counter
@@ -56,15 +58,21 @@ void loop() {
 File NewFile = SD.open(directoryPath+"/"+firstWord, FILE_WRITE);
 
 //I need to add a line by line thing here instead of just writing down all the data
-    
-NewFile.println(phrase);
-NewFile.close();
-Serial.println(phrase);
 
+for (int i = 1; i <= longueur_data; i++) {
+  String mot = "";
+  int indice_derniere_lettre = 0;
+  while (phrase[indice_derniere_lettre] != ' ') {
+    mot += phrase[indice_derniere_lettre];
+    indice_derniere_lettre += 1;
+  }
+  indice_derniere_lettre += 1;
+  NewFile.println(mot);
+}
+NewFile.close();
 
     } else {
     Serial.println("Error opening file.");
   }
   num_ligne += 1;  // Increment line number for the next loop iteration
-  delay(0);     // Delay to avoid rapid printing
 }}
