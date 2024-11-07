@@ -47,8 +47,8 @@ liste =  [
 ]
 
 for i in range(len(liste)):
-    phrase = liste[i][0]
+    phrase = liste[i][0] + " "
     for j in range(1,len(liste[i])):
-        phrase = phrase + " " +str(liste[i][j])
+        phrase = phrase + str(liste[i][j]) + " " #ne pas changer, le dernier espace a la fin est necessaire pour le DataWriterSDCard.ino
     print(phrase)
 print(len(liste))
