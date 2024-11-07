@@ -1,5 +1,6 @@
 #include <SD.h>
 #include <SPI.h>
+#include <algorithm>
 
 const int CS_pin = 43;
 int length_data = 9; // nombre d'éléments dans une ligne
@@ -20,10 +21,10 @@ void setup() {
 
 void loop() {
     // Isolement de la première phrase
-    if (num_ligne <= nombre_total_ligne) {
+    if (num_ligne <= nombre_total_ligne) { //else l 95
         File dataFile = SD.open("PRACTICE.txt", FILE_READ);
         
-        if (dataFile) {
+        if (dataFile) { // else line 90
             int ligne_actuelle = 1; // Current line counter
             phrase = "";
 
@@ -53,7 +54,7 @@ void loop() {
 
             // Creation des différents sous répertoires
             String directoryPath = "";
-            for (int i = 0; i < firstWord.length(); i++) {
+            for (int i = 0; i < std::min(firstWord.length(),8); i++) {
                 char lettre = firstWord[i];
                 if (!SD.exists(directoryPath + "/" + lettre)) {
                     SD.mkdir(directoryPath + "/" + lettre);
@@ -62,31 +63,36 @@ void loop() {
                     Serial.println("Directory of path " + directoryPath + "/" + lettre + " already existed");
                 }
                 directoryPath = directoryPath + "/" + lettre;
-            }
 
-            File NewFile = SD.open(directoryPath + "/" + firstWord, FILE_WRITE);
-            delay(50); // 50 ms delay
-
-            // I need to add a line by line thing here instead of just writing down all the data
-            if (NewFile) {
-                Serial.println("Making of new file successful");
-                int indice_derniere_lettre = 0;
-
-                for (int i = 1; i <= length_data; i++) {
-                    String mot = "";
-
-                    while (phrase[indice_derniere_lettre] != ' ') {
-                        mot += phrase[indice_derniere_lettre];
-                        indice_derniere_lettre += 1;
+                //I want to only create the file starting from the second letter because other wise there will be too many files in each sub directory
+                if (i != 0){
+                    //Creation du fichier dans chaque nested directory
+                    File NewFile = SD.open(directoryPath + "/" + firstWord, FILE_WRITE);
+                    delay(50); // 50 ms delay
+    
+                    // I need to add a line by line thing here instead of just writing down all the data
+                    if (NewFile) { // else l 87
+                        Serial.println("Making of new file successful");
+                        int indice_derniere_lettre = 0;
+    
+                        for (int j = 1; j <= length_data; j++) {
+                            String mot = "";
+    
+                            while (phrase[indice_derniere_lettre] != ' ') {
+                                mot += phrase[indice_derniere_lettre];
+                                indice_derniere_lettre += 1;
+                            }
+                            indice_derniere_lettre += 1;
+                            NewFile.println(mot);
+                        }
+                        NewFile.close();
+                        delay(50);
+                    } else {
+                        Serial.println("Error making new file");
                     }
-                    indice_derniere_lettre += 1;
-                    NewFile.println(mot);
                 }
-                NewFile.close();
-                delay(50);
-            } else {
-                Serial.println("Error making new file");
             }
+
         } else {
             Serial.println("Error opening file.");
         }
