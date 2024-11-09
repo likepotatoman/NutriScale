@@ -6,6 +6,7 @@ int length_data = 9; // nombre d'éléments dans une ligne
 int nombre_total_ligne = 40; // nombre total de lignes qui vont être imprimées
 int num_ligne = 1; // Line number to read
 String phrase = "";
+int max_length_directory_depth = 8;
 
 void setup() {
     Serial.begin(9600);
@@ -54,9 +55,9 @@ void loop() {
             // Creation des différents sous répertoires
             String directoryPath = "";
             if (8 > firstWord.length()){
-                int max_length_directory_depth = firstWord.length();
+                max_length_directory_depth = firstWord.length();
             } else {
-                int max_length_directory_depth = 8;
+                max_length_directory_depth = 8;
             }
             for (int i = 0; i < max_length_directory_depth; i++) {
                 char lettre = firstWord[i];
