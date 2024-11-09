@@ -216,7 +216,7 @@ void FourDigits7SegmentsDisplayLibrary::displayDigit(int digit, int position) {
 }
 
 void FourDigits7SegmentsDisplayLibrary::displayNumber(int number) {
-    if (number < 0 || number > 9999) return;
+    if (number < 0 || number > 2000) return;
 
     // Extract each digit from the number
     int thousands = number / 1000;
