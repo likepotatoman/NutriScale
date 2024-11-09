@@ -1,6 +1,5 @@
 #include <SD.h>
 #include <SPI.h>
-#include <algorithm>
 
 const int CS_pin = 43;
 int length_data = 9; // nombre d'éléments dans une ligne
@@ -54,7 +53,12 @@ void loop() {
 
             // Creation des différents sous répertoires
             String directoryPath = "";
-            for (int i = 0; i < std::min(firstWord.length(),8); i++) {
+            if (8 > firstWord.length()){
+                int max_length_directory_depth = firstWord.length();
+            } else {
+                int max_length_directory_depth = 8;
+            }
+            for (int i = 0; i < max_length_directory_depth; i++) {
                 char lettre = firstWord[i];
                 if (!SD.exists(directoryPath + "/" + lettre)) {
                     SD.mkdir(directoryPath + "/" + lettre);
