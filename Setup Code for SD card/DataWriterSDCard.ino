@@ -9,13 +9,14 @@ String phrase = "";
 int max_length_directory_depth = 8;
 
 void setup() {
+    pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(9600);
-    
+
     if (!SD.begin(CS_pin)) {
         Serial.println("Initialization failed!");
         return;
     }
-    
+
     Serial.println("SD card initialized.");
 }
 
@@ -23,14 +24,14 @@ void loop() {
     // Isolement de la première phrase
     if (num_ligne <= nombre_total_ligne) { //else l 95
         File dataFile = SD.open("PRACTICE.txt", FILE_READ);
-        
+
         if (dataFile) { // else line 90
             int ligne_actuelle = 1; // Current line counter
             phrase = "";
 
             while (dataFile.available()) {
                 char c = dataFile.read();
-                
+
                 if (c == '\n') {
                     // If we reach the desired line number, stop reading
                     if (ligne_actuelle == num_ligne) break;
@@ -49,17 +50,15 @@ void loop() {
             String firstWord = "";
             for (char c : phrase) {
                 if (c == ' ') break; // Stop when a space is encountered
-                firstWord += c; // Add each character to firstWord
+                if (firstWord.length() < 8) {
+                    firstWord += c; // Add each character to firstWord
+                }
             }
 
-            // Creation des différents sous répertoires
             String directoryPath = "";
-            if (8 > firstWord.length()){
-                max_length_directory_depth = firstWord.length();
-            } else {
-                max_length_directory_depth = 8;
-            }
-            for (int i = 0; i < max_length_directory_depth; i++) {
+
+            for (int i = 0; i < firstWord.length(); i++) {
+                // Creation des différents sous répertoires
                 char lettre = firstWord[i];
                 if (!SD.exists(directoryPath + "/" + lettre)) {
                     SD.mkdir(directoryPath + "/" + lettre);
@@ -69,31 +68,33 @@ void loop() {
                 }
                 directoryPath = directoryPath + "/" + lettre;
 
-                //I want to only create the file starting from the second letter because other wise there will be too many files in each sub directory
-                if (i != 0){
-                    //Creation du fichier dans chaque nested directory
-                    File NewFile = SD.open(directoryPath + "/" + firstWord, FILE_WRITE);
-                    delay(50); // 50 ms delay
+                // Only create the file starting from the second letter
+                if (i != 0) {
+                    // Creation du fichier dans chaque nested directory sauf le premier
+                    if (!SD.exists(directoryPath + "/" + firstWord)){
+                        File NewFile = SD.open(directoryPath + "/" + firstWord, FILE_WRITE);
     
-                    // I need to add a line by line thing here instead of just writing down all the data
-                    if (NewFile) { // else l 87
-                        Serial.println("Making of new file successful");
-                        int indice_derniere_lettre = 0;
+                        if (NewFile) { // else l 87
+                            Serial.println("Making of new file successful");
+                            int indice_derniere_lettre = 0;
     
-                        for (int j = 1; j <= length_data; j++) {
-                            String mot = "";
+                            for (int j = 1; j <= length_data; j++) {
+                                String mot = "";
     
-                            while (phrase[indice_derniere_lettre] != ' ') {
-                                mot += phrase[indice_derniere_lettre];
+                                while (phrase[indice_derniere_lettre] != ' ') {
+                                    mot += phrase[indice_derniere_lettre];
+                                    indice_derniere_lettre += 1;
+                                }
                                 indice_derniere_lettre += 1;
+                                NewFile.println(mot);
                             }
-                            indice_derniere_lettre += 1;
-                            NewFile.println(mot);
+                            NewFile.close();
+    
+                        } else {
+                            Serial.println("Error making new file");
                         }
-                        NewFile.close();
-                        delay(50);
                     } else {
-                        Serial.println("Error making new file");
+                        Serial.println("File existed already");
                     }
                 }
             }
@@ -106,7 +107,10 @@ void loop() {
     } else {
         Serial.println("Finished!");
         while (true) {
-            delay(1000);
+            digitalWrite(LED_BUILTIN, HIGH);
+            delay(250);
+            digitalWrite(LED_BUILTIN, LOW);
+            delay(250);
         }
     }
 }
