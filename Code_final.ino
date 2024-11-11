@@ -70,9 +70,9 @@ void setup() {
   //set up for the SD module
     if(!SD.begin(CS_MicroSD)){
       Serial.println("Initialization failed");
-      return;
-    }
+    } else {
     Serial.println("SD card initialized");
+    }
   //set up for the TFT display
     
     Serial.begin(9600);
