@@ -31,8 +31,8 @@
 
 
 // Create an instance of the libraries
-FourDigits7SegmentsDisplayLibrary display(SegA, SegB, SegC, SegD, SegE, SegF, SegG, Dig1, Dig2, Dig3, Dig4); // Pin numbers for segments and digits
-HX711 scale;
+  FourDigits7SegmentsDisplayLibrary display(SegA, SegB, SegC, SegD, SegE, SegF, SegG, Dig1, Dig2, Dig3, Dig4); // Pin numbers for segments and digits
+  HX711 scale;
 
 void setup() {
   //initialization of non-constant variables
@@ -46,7 +46,11 @@ void setup() {
     scale.tare(); //tare
     scale.set_scale(1106);//sets the scale needed to show the correct weight (can be changed)
   //set up for the SD module
-
+    if(!SD.begin(CS_MicroSD)){
+      Serial.println("Initialization failed");
+    } else {
+    Serial.println("SD card initialized");
+    }
   //set up for the TFT display
     
     Serial.begin(9600);
