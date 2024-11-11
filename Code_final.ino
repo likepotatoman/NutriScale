@@ -96,17 +96,15 @@ void loop() {
 
     if (timer == 5){
       weight = scale.get_units();
-      Serial.println("Weigth on scale: " + String(weight));
-      Serial.println("Food: " + food_name);
-      Serial.println("Calories: " + String(round(food_cal_per100g * weight / 100)));
-      Serial.println("Protein: " + String(round(food_protein_per100g * weight / 100)));
-      Serial.println("Carbs: " + String(round(food_carbohydrates_per100g * weight / 100)));
-      Serial.println("Sugar: " + String(round(food_sugar_per100g * weight / 100)));
-      Serial.println("Fat: " + String(round(food_fat_per100g * weight / 100)));
-      Serial.println("Fiber: " + String(round(food_fiber_per100g * weight / 100)));
-      Serial.println("Sodium: " + String(round(food_sodium_per100g * weight / 100)));
-      Serial.println("");
-      Serial.println("");      
+Serial.println("Weight on scale: " + String(weight) + "\n" +
+               "Food: " + food_name + "\n" +
+               "Calories: " + String(round(food_cal_per100g * weight / 100)) + "\n" +
+               "Protein: " + String(round(food_protein_per100g * weight / 100)) + "\n" +
+               "Carbs: " + String(round(food_carbohydrates_per100g * weight / 100)) + "\n" +
+               "Sugar: " + String(round(food_sugar_per100g * weight / 100)) + "\n" +
+               "Fat: " + String(round(food_fat_per100g * weight / 100)) + "\n" +
+               "Fiber: " + String(round(food_fiber_per100g * weight / 100)) + "\n" +
+               "Sodium: " + String(round(food_sodium_per100g * weight / 100)));    
       timer = 0;
       }
       
