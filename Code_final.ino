@@ -23,7 +23,9 @@
   //MicroSD module pins
     const int CS_MicroSD = 43;
   //TFT display module pins (Note : no touchscreen)
-
+    const int CS_TFT = ;
+    const int RESET_TFT = ;
+    const int DC_TFT = ;
   //Button pins
     const int Forward_Button_pin = ;
     const int Backward_Button_pin = ;
@@ -41,7 +43,7 @@
 //Declaration of global variables
   int weight = 1;
   int timer = 0;
-  char screen_phase = 'H';
+  char screen_phase = 'H'; //H for home, S for food select, F for selected food, W for week recap, M for month recap, A for advice screen
   //Food related variables
   bool new_food_selected = true;
   String selected_food = "CORN";
