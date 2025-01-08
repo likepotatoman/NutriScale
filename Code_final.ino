@@ -22,8 +22,12 @@
     const int DOUT_pin = 19;
   //MicroSD module pins
     const int CS_MicroSD = 43;
-  //TFT display module pins
+  //TFT display module pins (Note : no touchscreen)
 
+  //Button pins
+    const int Forward_Button_pin = ;
+    const int Backward_Button_pin = ;
+    const int Select_Button_pin = ;
   //SPI communication protocol pins
     const int MISO_pin = 50; //Unchangeable
     const int MOSI_pin = 51; //Unchangeable
