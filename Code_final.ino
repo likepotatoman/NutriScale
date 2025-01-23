@@ -107,6 +107,21 @@ void refresh_TFT() {
   TFT_border_highlight();
 }
 
+void fetch_food_info() {
+  File Food_info = SD.open(selected_food_path + "/" + selected_food, FILE_READ);
+  delay(5);
+  food_name = Food_info.readStringUntil('\n'); // Read the first line for the food name
+  food_cal_per100g = Food_info.parseFloat(); // Calories (in kcal)
+  food_protein_per100g = Food_info.parseFloat(); // Protein (in grams)
+  food_fat_per100g = Food_info.parseFloat(); // Fat (in grams)
+  food_carbohydrates_per100g = Food_info.parseFloat(); // Carbohydrates (in grams)
+  food_sodium_per100g = Food_info.parseFloat(); // Sodium (in grams)
+  food_sugar_per100g = Food_info.parseFloat(); // Sugar (in grams)
+  food_fiber_per100g = Food_info.parseFloat(); // Fiber (in grams)
+
+  Food_info.close();
+}
+
 void TFT_home_screen() {
 
 
@@ -216,14 +231,17 @@ void process_select_button_press() {
       screen_phase = 'F';
       selected_food = option_one_food;
       selected_food_path = option_one_food_path;
+      fetch_food_info();
     } else if (selection_index == 29) {
       screen_phase = 'F';
       selected_food = option_two_food;
       selected_food_path = option_two_food_path;
+      fetch_food_info();
     } else if (selection_index == 30) {
       screen_phase = 'F';
       selected_food = option_three_food;
       selected_food_path = option_three_food_path;
+      fetch_food_info();
     } else {
       if (selected_food.length() <= 8){
         if (selection_index == 2) {
@@ -419,7 +437,7 @@ void loop() {
       food_fiber_per100g = Food_info.parseFloat(); // Fiber (in grams)
       food_sodium_per100g = Food_info.parseFloat(); // Sodium (in mg)
       Food_info.close();
-      new_food_selected = false;
+
     }
 
     if (timer == 5){
