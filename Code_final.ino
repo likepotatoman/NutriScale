@@ -63,6 +63,205 @@
   float food_fat_per100g = 0;
   float food_fiber_per100g = 0;
   float food_sodium_per100g = 0;
+  int selection_index = 1
+  int week_select = 0 //how many weeks into the past
+  int month_select = 0 //how many months into the past
+  int week_completed = 0 
+  int month_completed = 0
+  String option_one_food = 
+  String option_one_food_path = 
+  String option_two_food = 
+  String option_two_food_path = 
+  String option_three_food = 
+  String option_three_food_path = 
+
+void refresh_4DD() {
+  display.displayNumber(weight); 
+}
+
+void refresh_weight() {
+  weight = scale.get_units();
+}
+
+void refresh_TFT() {
+  if (screen_phase == 'H') {
+    TFT_home_screen();
+
+  } else if (screen_phase == 'S') {
+    TFT_food_select();
+
+  } else if (screen_phase == 'F') {
+    TFT_selected_food();
+
+  } else if (screen_phase == 'W') {
+    TFT_week_recap();
+
+  } else if (screen_phase == 'M') {
+    TFT_month_recap();
+
+  } else if (screen_phase == 'A') {
+    TFT_advice();
+
+  }
+
+  TFT_border_highlight();
+}
+
+void TFT_home_screen() {
+
+
+}
+
+void TFT_food_select() {
+
+  
+}
+
+void TFT_selected_food() {
+
+  
+}
+
+void TFT_week_recap() {
+
+  
+}
+
+void TFT_month_recap() {
+
+  
+}
+
+void TFT_advice() {
+
+  
+}
+
+void TFT_border_highlight() {
+  
+
+}
+
+void add_food() {
+
+
+}
+
+void process_left_button_press() {
+  if (selection_index != 1) {
+    selection_index -= 1;
+
+  }
+
+  refresh_TFT();
+}
+
+void process_right_button_press() {
+  if (screen_phase == 'H') {
+    if (selection_index != 4) {
+      selection_index += 1;
+    }
+
+  } else if (screen_phase == 'S') {
+    if (selection_index != 30) { 
+      selection_index += 1;
+    }
+
+  } else if (screen_phase == 'F') {
+    if (selection_index != 2) {
+      selection_index += 1;
+    }
+
+  } else if (screen_phase == 'W') {
+    if (selection_index != 3) {
+      selection_index += 1;
+    }
+
+  } else if (screen_phase == 'M') {
+    if (selection_index != 3) {
+      selection_index += 1;
+    }
+  }
+
+  refresh_TFT();
+}
+
+void process_select_button_press() {
+  if (screen_phase == 'H') {
+    
+    if (selection_index == 1) {
+      screen_phase = 'S';
+      selected_food = "";
+      selected_food_path = "";
+    } else if (selection_index == 2){
+      screen_phase = 'W';
+      week_select = 0;
+    } else if (selection_index == 3){
+      screen_phase = 'M';
+      month_select = 0;
+    } else if (selection_index == 4){
+      screen_phase = 'A';
+    }
+
+  
+  } else if (screen_phase == 'S') {
+    if (selection_index == 1) {
+      screen_phase = 'H';
+    } else if (selection_index == 28) {
+      screen_phase = 'F';
+      selected_food = option_one_food
+      selected_food_path = option_one_food_path
+
+    }
+
+  } else if (screen_phase == 'F') {
+    if (selection_index == 1) {
+      screen_phase = 'S'
+    } else if (selection_index == 2){
+      screen_phase = 'W';
+      add_food();
+    }
+
+  } else if (screen_phase == 'W') {
+    if (selection_index == 1) {
+      screen_phase = 'H';
+    } else if (selection_index == 2){
+      if (week_select != 3 && week_completed >= week_select + 1) {
+        week_select += 1;
+      }
+    } else if (selection_index == 3) {
+      if (week_slect != 0) {
+        week_select -= 1;
+      }
+    
+    }
+
+  } else if (screen_phase == 'M') {
+    if (selection_index == 1) {
+      screen_phase = 'H';
+    } else if (selection_index == 2){
+      if (month_completed >= month_select + 1) {
+        month_select += 1;
+      }
+    } else if (selection_index == 3) {
+      if (month_slect != 0) {
+        month_select -= 1;
+      }
+
+    }
+
+  } else if (screen_phase == 'A') {
+    if (selection_index == 1) {
+      screen_phase = 'H';
+    }
+
+  } 
+
+  selection_index = 1;
+  refresh_TFT();
+}
+
+
 
 void setup() {
   //set up for the 4 digit display
@@ -101,7 +300,7 @@ void loop() {
     }
 
     if (timer == 5){
-      weight = scale.get_units();
+      
 Serial.println("Weight on scale: " + String(weight) + "\n" +
                "Food: " + food_name + "\n" +
                "Calories: " + String(round(food_cal_per100g * weight / 100)) + "\n" +
@@ -115,6 +314,6 @@ Serial.println("Weight on scale: " + String(weight) + "\n" +
       }
       
     timer += 1;
-    display.displayNumber(weight);  
+      
     
 }
