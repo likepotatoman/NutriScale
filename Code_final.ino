@@ -147,6 +147,11 @@ void add_food() {
 
 }
 
+void update_options() {
+
+
+}
+
 void process_left_button_press() {
   if (selection_index != 1) {
     selection_index -= 1;
@@ -209,16 +214,134 @@ void process_select_button_press() {
       screen_phase = 'H';
     } else if (selection_index == 28) {
       screen_phase = 'F';
-      selected_food = option_one_food
-      selected_food_path = option_one_food_path
+      selected_food = option_one_food;
+      selected_food_path = option_one_food_path;
+    } else if (selection_index == 29) {
+      screen_phase = 'F';
+      selected_food = option_two_food;
+      selected_food_path = option_two_food_path;
+    } else if (selection_index == 30) {
+      screen_phase = 'F';
+      selected_food = option_three_food;
+      selected_food_path = option_three_food_path;
+    } else {
+      if (selected_food.length() <= 8){
+        if (selection_index == 2) {
+          selected_food += "A";
+          selected_food_path += "A/";
 
+        } else if (selection_index == 3) {
+          selected_food += "B";
+          selected_food_path += "B/";
+
+        } else if (selection_index == 4) {
+          selected_food += "C";
+          selected_food_path += "C/";
+
+        } else if (selection_index == 5) {
+          selected_food += "D";
+          selected_food_path += "D/";
+
+        } else if (selection_index == 6) {
+          selected_food += "E";
+          selected_food_path += "E/";
+
+        } else if (selection_index == 7) {
+          selected_food += "F";
+          selected_food_path += "F/";
+
+        } else if (selection_index == 8) {
+          selected_food += "G";
+          selected_food_path += "G/";
+
+        } else if (selection_index == 9) {
+          selected_food += "H";
+          selected_food_path += "H/";
+
+        } else if (selection_index == 10) {
+          selected_food += "I";
+          selected_food_path += "I/";
+
+        } else if (selection_index == 11) {
+          selected_food += "J";
+          selected_food_path += "J/";
+
+        } else if (selection_index == 12) {
+          selected_food += "K";
+          selected_food_path += "K/";
+
+        } else if (selection_index == 13) {
+          selected_food += "L";
+          selected_food_path += "L/";
+
+        } else if (selection_index == 14) {
+          selected_food += "M";
+          selected_food_path += "M/";
+
+        } else if (selection_index == 15) {
+          selected_food += "N";
+          selected_food_path += "N/";
+
+        } else if (selection_index == 16) {
+          selected_food += "O";
+          selected_food_path += "O/";
+
+        } else if (selection_index == 17) {
+          selected_food += "P";
+          selected_food_path += "P/";
+
+        } else if (selection_index == 18) {
+          selected_food += "Q";
+          selected_food_path += "Q/";
+
+        } else if (selection_index == 19) {
+          selected_food += "R";
+          selected_food_path += "R/";
+
+        } else if (selection_index == 20) {
+          selected_food += "S";
+          selected_food_path += "S/";
+
+        } else if (selection_index == 21) {
+          selected_food += "T";
+          selected_food_path += "T/";
+
+        } else if (selection_index == 22) {
+          selected_food += "U";
+          selected_food_path += "U/";
+
+        } else if (selection_index == 23) {
+          selected_food += "V";
+          selected_food_path += "V/";
+
+        } else if (selection_index == 24) {
+          selected_food += "W";
+          selected_food_path += "W/";
+
+        } else if (selection_index == 25) {
+          selected_food += "X";
+          selected_food_path += "X/";
+
+        } else if (selection_index == 26) {
+          selected_food += "Y";
+          selected_food_path += "Y/";
+
+        } else if (selection_index == 27) {
+          selected_food += "Z";
+          selected_food_path += "Z/";
+        }
+
+        update_options();
+      }
     }
 
   } else if (screen_phase == 'F') {
     if (selection_index == 1) {
       screen_phase = 'S'
+      selected_food = "";
+      selected_food_path = "";
     } else if (selection_index == 2){
-      screen_phase = 'W';
+      screen_phase = 'H';
       add_food();
     }
 
