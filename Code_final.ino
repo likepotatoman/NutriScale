@@ -425,20 +425,6 @@ void setup() {
 }
 
 void loop() {
-    if (new_food_selected == true){
-      File Food_info = SD.open(selected_food_path + "/" + selected_food, FILE_READ);
-      delay(5);
-      food_name = Food_info.readStringUntil('\n'); // Read the first line for the food name
-      food_cal_per100g = Food_info.parseFloat(); // Calories (in kcal)
-      food_protein_per100g = Food_info.parseFloat(); // Protein (in grams)
-      food_carbohydrates_per100g = Food_info.parseFloat(); // Carbohydrates (in grams)
-      food_sugar_per100g = Food_info.parseFloat(); // Sugar (in grams)
-      food_fat_per100g = Food_info.parseFloat(); // Fat (in grams)
-      food_fiber_per100g = Food_info.parseFloat(); // Fiber (in grams)
-      food_sodium_per100g = Food_info.parseFloat(); // Sodium (in mg)
-      Food_info.close();
-
-    }
 
     if (timer == 5){
       
