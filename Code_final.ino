@@ -68,6 +68,9 @@
   int month_select = 0 //how many months into the past
   int week_completed = 0 
   int month_completed = 0
+  int Forward_Button_State = 0
+  int Backward_Button_State = 0
+  int Select_Button_State = 0
   String option_one_food = 
   String option_one_food_path = 
   String option_two_food = 
@@ -167,7 +170,7 @@ void update_options() {
 
 }
 
-void process_left_button_press() {
+void process_backward_button_press() {
   if (selection_index != 1) {
     selection_index -= 1;
 
@@ -176,7 +179,7 @@ void process_left_button_press() {
   refresh_TFT();
 }
 
-void process_right_button_press() {
+void process_forward_button_press() {
   if (screen_phase == 'H') {
     if (selection_index != 4) {
       selection_index += 1;
@@ -402,9 +405,53 @@ void process_select_button_press() {
   refresh_TFT();
 }
 
+void check_buttons() {
+  if (Forward_Button_State == 0) {
+    if (digitalRead(Forward_Button_pin) == LOW) {
+      Forward_Button_State = 1;
+      delay(50);
+    }
+  } else {
+    if (digitalRead(Forward_Button_pin) == HIGH) {
+      Forward_Button_State = 0;
+      delay(50);
+      process_forward_button_press();
+    }
+  }
+
+  if (Backward_Button_State == 0) {
+    if (digitalRead(Backward_Button_pin) == LOW) {
+      Backward_Button_State = 1;
+      delay(50);
+    }
+  } else {
+    if (digitalRead(Backward_Button_pin) == HIGH) {
+      Backward_Button_State = 0;
+      delay(50);
+      process_backward_button_press();
+    }
+  }
+
+  if (Select_Button_State == 0) {
+    if (digitalRead(Select_Button_pin) == LOW) {
+      Select_Button_State = 1;
+      delay(50);
+    }
+  } else {
+    if (digitalRead(Select_Button_pin) == HIGH) {
+      Select_Button_State = 0;
+      delay(50);
+      process_select_button_press();
+    }
+  }
+}
 
 
 void setup() {
+  //set up for the buttons
+    pinMode(Forward_Button_pin, INPUT_PULLUP);
+    pinMode(Backward_Button_pin, INPUT_PULLUP);
+    pinMode(Select_Button_pin, INPUT_PULLUP);
   //set up for the 4 digit display
     display.displayNumber(8888);
     delay(500);
