@@ -3,6 +3,7 @@
 #include <HX711.h>
 #include <SD.h>
 #include <SPI.h>
+#include <TFT_eSPI.h>
 
 // Initialize all the pins
   //4 digit display pins
@@ -41,42 +42,47 @@
   HX711 scale;
 
 //Declaration of global variables
-  int weight = 1;
-  int timer = 0;
-  char screen_phase = 'H'; //H for home, S for food select, F for selected food, W for week recap, M for month recap, A for advice screen
+  //Other
+    int weight = 1;
+    int timer = 0;
   //Food related variables
-  bool new_food_selected = true;
-  String selected_food = "CORN";
-  String selected_food_path = "C/O/R/N/";
-  String food_name = "";
-  float food_cal = 0;
-  float food_protein = 0;
-  float food_carbohydrates = 0;
-  float food_sugar = 0;
-  float food_fat = 0;
-  float food_fiber = 0;
-  float food_sodium = 0;
-  float food_cal_per100g = 0;
-  float food_protein_per100g = 0;
-  float food_carbohydrates_per100g = 0;
-  float food_sugar_per100g = 0;
-  float food_fat_per100g = 0;
-  float food_fiber_per100g = 0;
-  float food_sodium_per100g = 0;
-  int selection_index = 1
-  int week_select = 0 //how many weeks into the past
-  int month_select = 0 //how many months into the past
-  int week_completed = 0 
-  int month_completed = 0
-  int Forward_Button_State = 0
-  int Backward_Button_State = 0
-  int Select_Button_State = 0
-  String option_one_food = 
-  String option_one_food_path = 
-  String option_two_food = 
-  String option_two_food_path = 
-  String option_three_food = 
-  String option_three_food_path = 
+    bool new_food_selected = true;
+    String selected_food = "CORN";
+    String selected_food_path = "C/O/R/N/";
+    String food_name = "";
+    float food_cal = 0;
+    float food_protein = 0;
+    float food_carbohydrates = 0;
+    float food_sugar = 0;
+    float food_fat = 0;
+    float food_fiber = 0;
+    float food_sodium = 0;
+    float food_cal_per100g = 0;
+    float food_protein_per100g = 0;
+    float food_carbohydrates_per100g = 0;
+    float food_sugar_per100g = 0;
+    float food_fat_per100g = 0;
+    float food_fiber_per100g = 0;
+    float food_sodium_per100g = 0;
+  //User interface related variavles
+    char screen_phase = 'H'; //H for home, S for food select, F for selected food, W for week recap, M for month recap, A for advice screen
+    int selection_index = 1
+    int week_select = 0 //how many weeks into the past
+    int month_select = 0 //how many months into the past
+    int week_completed = 0 
+    int month_completed = 0
+    int Forward_Button_State = 0
+    int Backward_Button_State = 0
+    int Select_Button_State = 0
+    String option_one_food = 
+    String option_one_food_path = 
+    String option_two_food = 
+    String option_two_food_path = 
+    String option_three_food = 
+    String option_three_food_path = 
+
+
+
 
 void refresh_4DD() {
   display.displayNumber(weight); 
