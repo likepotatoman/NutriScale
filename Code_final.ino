@@ -83,6 +83,7 @@
     uint32_t bgColor = 0xFF9C;  // Soft Beige for background color
     uint32_t btnColor = 0xA61A; // Soft Blue for the button color
     uint32_t textColor = 0x3186; // Dark Gray for the text color
+    unint32_t highlightColor = TFT_RED; // Red for high contrast highlight
 
 
 
@@ -117,7 +118,7 @@ void refresh_TFT() {
   }
 
   TFT_border_highlight();
-}
+} //finished
 
 void fetch_food_info() {
   File Food_info = SD.open(selected_food_path + "/" + selected_food, FILE_READ);
@@ -135,9 +136,30 @@ void fetch_food_info() {
 }
 
 void TFT_home_screen() {
+  tft.setTextColor(textColor);
+  tft.setTextSize(3);
 
+  //background
+  tft.fillRect(0, 0, 320, 480, bgColor);
+  
+  //buttons
+    //first button
+      tft.fillRect(20, 20, 280, 120, btnColor);
+      tft.setCursor(110, 50);
+      tft.print("SELECT");
+      tft.setCursor(80, 90);
+      tft.print("NEW FOODS");
 
-}
+    //second button
+      tft.fillRect(20, 180, 280, 120, btnColor);
+      tft.setCursor(45, 230);
+      tft.print("TODAY'S STATS");
+
+    //third button
+      tft.fillRect(20, 340, 280, 120, btnColor);
+      tft.setCursor(55, 390);
+      tft.print("MEAL HISTORY");
+} //finished
 
 void TFT_food_select() {
 
@@ -165,7 +187,30 @@ void TFT_advice() {
 }
 
 void TFT_border_highlight() {
-  
+  if (screen_phase == 'H') {
+    if (selection_index == 1) {
+      tft.drawRect(20, 20, 280, 120, highlightColor);
+    } else if (selection_index == 2) {
+      tft.drawRect(20, 180, 280, 120, highlightColor);
+    } else {
+      tft.drawRect(20, 340, 280, 120, highlightColor);
+    }
+  } else if (screen_phase == 'S') {
+    
+
+  } else if (screen_phase == 'F') {
+    
+
+  } else if (screen_phase == 'W') {
+    
+
+  } else if (screen_phase == 'M') {
+    
+
+  } else if (screen_phase == 'A') {
+    
+
+  }
 
 }
 
@@ -182,15 +227,14 @@ void update_options() {
 void process_backward_button_press() {
   if (selection_index != 1) {
     selection_index -= 1;
-
   }
 
   refresh_TFT();
-}
+} //finished
 
 void process_forward_button_press() {
   if (screen_phase == 'H') {
-    if (selection_index != 4) {
+    if (selection_index != 3) {
       selection_index += 1;
     }
 
@@ -216,7 +260,7 @@ void process_forward_button_press() {
   }
 
   refresh_TFT();
-}
+}//finished
 
 void process_select_button_press() {
   if (screen_phase == 'H') {
@@ -453,7 +497,7 @@ void check_buttons() {
       process_select_button_press();
     }
   }
-}
+} //finished
 
 
 void setup() {
@@ -499,6 +543,4 @@ Serial.println("Weight on scale: " + String(weight) + "\n" +
       }
       
     timer += 1;
-      
-    
 }
