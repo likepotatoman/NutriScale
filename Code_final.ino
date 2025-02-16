@@ -80,6 +80,9 @@
     String option_two_food_path = 
     String option_three_food = 
     String option_three_food_path = 
+    uint32_t bgColor = 0xFF9C;  // Soft Beige for background color
+    uint32_t btnColor = 0xA61A; // Soft Blue for the button color
+    uint32_t textColor = 0x3186; // Dark Gray for the text color
 
 
 
