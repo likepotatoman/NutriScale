@@ -457,6 +457,8 @@ void check_buttons() {
 
 
 void setup() {
+  Serial.begin(9600); //for debugging so we can delete it if not debugging
+  
   //set up for the buttons
     pinMode(Forward_Button_pin, INPUT_PULLUP);
     pinMode(Backward_Button_pin, INPUT_PULLUP);
@@ -476,8 +478,8 @@ void setup() {
     Serial.println("SD card initialized");
     }
   //set up for the TFT display
-    
-    Serial.begin(9600);
+    tft.init();
+    tft.setRotation(2); //use 0 or delete if the pins are at the bottom and use  2 if the pins are on the top
 }
 
 void loop() {
