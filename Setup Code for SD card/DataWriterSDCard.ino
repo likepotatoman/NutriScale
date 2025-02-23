@@ -1,16 +1,24 @@
 #include <SD.h>
 #include <SPI.h>
+#include <ctype.h>
 
 const int CS_pin = 43;
 int length_data = 9; // nombre d'éléments dans une ligne
-int nombre_total_ligne = 40; // nombre total de lignes qui vont être imprimées
+int nombre_total_ligne = 262; // nombre total de lignes qui vont être imprimées
 int num_ligne = 1; // Line number to read
 String phrase = "";
-int max_length_directory_depth = 8;
+
 
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(9600);
+
+    if (SD.exists("DATA.txt")) {
+        Serial.println("File exists!");
+    } else {
+        Serial.println("File does not exist.");
+    }
+
 
     if (!SD.begin(CS_pin)) {
         Serial.println("Initialization failed!");
@@ -23,7 +31,7 @@ void setup() {
 void loop() {
     // Isolement de la première phrase
     if (num_ligne <= nombre_total_ligne) { //else l 95
-        File dataFile = SD.open("PRACTICE.txt", FILE_READ);
+        File dataFile = SD.open("DATA.txt", FILE_READ);
 
         if (dataFile) { // else line 90
             int ligne_actuelle = 1; // Current line counter
@@ -49,9 +57,13 @@ void loop() {
             // Isolement du premier mot
             String firstWord = "";
             for (char c : phrase) {
-                if (c == ' ') break; // Stop when a space is encountered
+                if (isdigit(c)) break; // Stop when a number is encountered
                 if (firstWord.length() < 8) {
-                    firstWord += c; // Add each character to firstWord
+                    if (c == ' ') { 
+                      firstWord += '_';
+                    } else {
+                      firstWord += c; // Add each character to firstWord
+                    }
                 }
             }
 
