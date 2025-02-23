@@ -80,9 +80,12 @@
     String option_two_food_path = 
     String option_three_food = 
     String option_three_food_path = 
+    String option_four_food = 
+    String option_four_food_path = 
     uint32_t bgColor = 0xFF9C;  // Soft Beige for background color
     uint32_t btnColor = 0xA61A; // Soft Blue for the button color
     uint32_t textColor = 0x3186; // Dark Gray for the text color
+    uint32_t txtboxColor = 0xD69A; //Muted Blue
     unint32_t highlightColor = TFT_RED; // Red for high contrast highlight
 
 
@@ -162,8 +165,148 @@ void TFT_home_screen() {
 } //finished
 
 void TFT_food_select() {
+  tft.setTextColor(textColor);
+  tft.setTextSize(3);
 
-  
+  //background
+    tft.fillRect(0, 0, 320, 480, bgColor);
+
+  //text box
+    tft.fillRect(20, 50, 280, 50, txtboxColor);
+
+  //buttons
+    //back button
+      tft.fillRect(5, 5, 80, 30, btnColor);
+      tft.setCursor(9, 10);
+      tft.print("BACK");
+    
+    // Key board
+      // A - G
+        tft.fillRect(43, 110, 30, 30, btnColor);
+        tft.setCursor(51, 115);
+        tft.print('A');
+        
+        tft.fillRect(77, 110, 30, 30, btnColor);
+        tft.setCursor(85, 115);
+        tft.print('B');
+        
+        tft.fillRect(111, 110, 30, 30, btnColor);
+        tft.setCursor(119, 115);
+        tft.print('C');
+        
+        tft.fillRect(145, 110, 30, 30, btnColor);
+        tft.setCursor(153, 115);
+        tft.print('D');
+        
+        tft.fillRect(179, 110, 30, 30, btnColor);
+        tft.setCursor(187, 115);
+        tft.print('E');
+        
+        tft.fillRect(213, 110, 30, 30, btnColor);
+        tft.setCursor(221, 115);
+        tft.print('F');
+        
+        tft.fillRect(247, 110, 30, 30, btnColor);
+        tft.setCursor(255, 115);
+        tft.print('G');
+      
+ 
+      // H - N
+        tft.fillRect(43, 144, 30, 30, btnColor);
+        tft.setCursor(51, 149);
+        tft.print('H');
+        
+        tft.fillRect(77, 144, 30, 30, btnColor);
+        tft.setCursor(85, 149);
+        tft.print('I');
+        
+        tft.fillRect(111, 144, 30, 30, btnColor);
+        tft.setCursor(119, 149);
+        tft.print('J');
+        
+        tft.fillRect(145, 144, 30, 30, btnColor);
+        tft.setCursor(153, 149);
+        tft.print('K');
+        
+        tft.fillRect(179, 144, 30, 30, btnColor);
+        tft.setCursor(187, 149);
+        tft.print('L');
+        
+        tft.fillRect(213, 144, 30, 30, btnColor);
+        tft.setCursor(221, 149);
+        tft.print('M');
+        
+        tft.fillRect(247, 144, 30, 30, btnColor);
+        tft.setCursor(255, 149);
+        tft.print('N');
+      
+      // O - U
+        tft.fillRect(43, 178, 30, 30, btnColor);
+        tft.setCursor(51, 183);
+        tft.print('O');
+        
+        tft.fillRect(77, 178, 30, 30, btnColor);
+        tft.setCursor(85, 183);
+        tft.print('P');
+        
+        tft.fillRect(111, 178, 30, 30, btnColor);
+        tft.setCursor(119, 183);
+        tft.print('Q');
+        
+        tft.fillRect(145, 178, 30, 30, btnColor);
+        tft.setCursor(153, 183);
+        tft.print('R');
+        
+        tft.fillRect(179, 178, 30, 30, btnColor);
+        tft.setCursor(187, 183);
+        tft.print('S');
+        
+        tft.fillRect(213, 178, 30, 30, btnColor);
+        tft.setCursor(221, 183);
+        tft.print('T');
+        
+        tft.fillRect(247, 178, 30, 30, btnColor);
+        tft.setCursor(255, 183);
+        tft.print('U');
+      
+      // V - Z + Extra keys
+        tft.fillRect(43, 212, 30, 30, btnColor);
+        tft.setCursor(51, 217);
+        tft.print('V');
+        
+        tft.fillRect(77, 212, 30, 30, btnColor);
+        tft.setCursor(85, 217);
+        tft.print('W');
+        
+        tft.fillRect(111, 212, 30, 30, btnColor);
+        tft.setCursor(119, 217);
+        tft.print('X');
+        
+        tft.fillRect(145, 212, 30, 30, btnColor);
+        tft.setCursor(153, 217);
+        tft.print('Y');
+        
+        tft.fillRect(179, 212, 30, 30, btnColor);
+        tft.setCursor(187, 217);
+        tft.print('Z');
+      
+        tft.fillRect(213, 212, 30, 30, btnColor);
+        tft.setCursor(221, 217);
+        tft.print('<');
+        
+        tft.fillRect(247, 212, 30, 30, btnColor);
+        tft.setCursor(255, 217);
+        tft.print('>');
+
+    //food options
+      //food 1
+       tft.fillRect(20, 270, 280, 40, btnColor);
+       //food 2
+       tft.fillRect(20, 320, 280, 40, btnColor);
+       //food 3
+       tft.fillRect(20, 370, 280, 40, btnColor);
+       //food 4
+       tft.fillRect(20, 420, 280, 40, btnColor);
 }
 
 void TFT_selected_food() {
@@ -196,7 +339,39 @@ void TFT_border_highlight() {
       tft.drawRect(20, 340, 280, 120, highlightColor);
     }
   } else if (screen_phase == 'S') {
-    
+      if (selection_index == 1) { tft.drawRect(5, 5, 80, 30, highlightColor); }
+      else if (selection_index == 2) { tft.drawRect(43, 110, 30, 30, highlightColor); }
+      else if (selection_index == 3) { tft.drawRect(77, 110, 30, 30, highlightColor); }
+      else if (selection_index == 4) { tft.drawRect(111, 110, 30, 30, highlightColor); }
+      else if (selection_index == 5) { tft.drawRect(145, 110, 30, 30, highlightColor); }
+      else if (selection_index == 6) { tft.drawRect(179, 110, 30, 30, highlightColor); }
+      else if (selection_index == 7) { tft.drawRect(213, 110, 30, 30, highlightColor); }
+      else if (selection_index == 8) { tft.drawRect(247, 110, 30, 30, highlightColor); }
+      else if (selection_index == 9) { tft.drawRect(43, 144, 30, 30, highlightColor); }
+      else if (selection_index == 10) { tft.drawRect(77, 144, 30, 30, highlightColor); }
+      else if (selection_index == 11) { tft.drawRect(111, 144, 30, 30, highlightColor); }
+      else if (selection_index == 12) { tft.drawRect(145, 144, 30, 30, highlightColor); }
+      else if (selection_index == 13) { tft.drawRect(179, 144, 30, 30, highlightColor); }
+      else if (selection_index == 14) { tft.drawRect(213, 144, 30, 30, highlightColor); }
+      else if (selection_index == 15) { tft.drawRect(247, 144, 30, 30, highlightColor); }
+      else if (selection_index == 16) { tft.drawRect(43, 178, 30, 30, highlightColor); }
+      else if (selection_index == 17) { tft.drawRect(77, 178, 30, 30, highlightColor); }
+      else if (selection_index == 18) { tft.drawRect(111, 178, 30, 30, highlightColor); }
+      else if (selection_index == 19) { tft.drawRect(145, 178, 30, 30, highlightColor); }
+      else if (selection_index == 20) { tft.drawRect(179, 178, 30, 30, highlightColor); }
+      else if (selection_index == 21) { tft.drawRect(213, 178, 30, 30, highlightColor); }
+      else if (selection_index == 22) { tft.drawRect(247, 178, 30, 30, highlightColor); }
+      else if (selection_index == 23) { tft.drawRect(43, 212, 30, 30, highlightColor); }
+      else if (selection_index == 24) { tft.drawRect(77, 212, 30, 30, highlightColor); }
+      else if (selection_index == 25) { tft.drawRect(111, 212, 30, 30, highlightColor); }
+      else if (selection_index == 26) { tft.drawRect(145, 212, 30, 30, highlightColor); }
+      else if (selection_index == 27) { tft.drawRect(179, 212, 30, 30, highlightColor); }
+      else if (selection_index == 28) { tft.drawRect(213, 212, 30, 30, highlightColor); }
+      else if (selection_index == 29) { tft.drawRect(247, 212, 30, 30, highlightColor); }
+      else if (selection_index == 30) { tft.drawRect(20, 270, 280, 40, highlightColor); }
+      else if (selection_index == 31) { tft.drawRect(20, 320, 280, 40, highlightColor); }
+      else if (selection_index == 32) { tft.drawRect(20, 370, 280, 40, highlightColor); }
+      else if (selection_index == 33) { tft.drawRect(20, 420, 280, 40, highlightColor); }
 
   } else if (screen_phase == 'F') {
     
@@ -239,7 +414,7 @@ void process_forward_button_press() {
     }
 
   } else if (screen_phase == 'S') {
-    if (selection_index != 30) { 
+    if (selection_index != 33) { 
       selection_index += 1;
     }
 
@@ -283,23 +458,28 @@ void process_select_button_press() {
   } else if (screen_phase == 'S') {
     if (selection_index == 1) {
       screen_phase = 'H';
-    } else if (selection_index == 28) {
+    } else if (selection_index == 30) {
       screen_phase = 'F';
       selected_food = option_one_food;
       selected_food_path = option_one_food_path;
       fetch_food_info();
-    } else if (selection_index == 29) {
+    } else if (selection_index == 31) {
       screen_phase = 'F';
       selected_food = option_two_food;
       selected_food_path = option_two_food_path;
       fetch_food_info();
-    } else if (selection_index == 30) {
+    } else if (selection_index == 32) {
       screen_phase = 'F';
       selected_food = option_three_food;
       selected_food_path = option_three_food_path;
       fetch_food_info();
-    } else {
-      if (selected_food.length() <= 8){
+    } else if (selection_index == 33) {
+      screen_phase = 'F';
+      selected_food = option_four_food;
+      selected_food_path = option_four_food_path;
+      fetch_food_info();
+      else {
+      if (selected_food.length() < 8){
         if (selection_index == 2) {
           selected_food += "A";
           selected_food_path += "A/";
@@ -403,6 +583,12 @@ void process_select_button_press() {
         } else if (selection_index == 27) {
           selected_food += "Z";
           selected_food_path += "Z/";
+        } else if (selection_index == 28) {
+          selected_food.remove(selected_food.length() - 1);
+          selected_food_path.remove(str.length() - 2);
+        } else if (selection_index == 29) {
+          selected_food += " ";
+          selected_food_path += " /";
         }
 
         update_options();
