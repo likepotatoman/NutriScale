@@ -58,7 +58,10 @@ void loop() {
             // Isolement du premier mot
             String firstWord = "";
             for (char c : phrase) {
-                if (isdigit(c)) break; // Stop when a number is encountered
+                if (isdigit(c)) {
+                  firstWord.remove(firstWord.length() - 1);
+                  break;
+                } // Stop when a number is encountered
                 if (firstWord.length() < 8) {
                     if (c == ' ') { 
                       firstWord += '_';
@@ -96,6 +99,9 @@ void loop() {
                                 mot += phrase[indice_derniere_lettre];
                                 indice_derniere_lettre += 1;
                             }
+
+                            phrase.remove(phrase.length() - 1);
+                            NewFile.println(mot);
 
                             for (int j = indice_derniere_lettre; j <= length_data; j++) {
                                 mot = "";
