@@ -7,6 +7,7 @@ int length_data = 9; // nombre d'éléments dans une ligne
 int nombre_total_ligne = 262; // nombre total de lignes qui vont être imprimées
 int num_ligne = 1; // Line number to read
 String phrase = "";
+String mot = "";
 
 
 void setup() {
@@ -89,14 +90,20 @@ void loop() {
                         if (NewFile) { // else l 87
                             Serial.println("Making of new file successful");
                             int indice_derniere_lettre = 0;
-    
-                            for (int j = 1; j <= length_data; j++) {
-                                String mot = "";
-    
+                            mot = "";
+
+                            while (!isdigit(phrase[indice_derniere_lettre])) {
+                                mot += phrase[indice_derniere_lettre];
+                                indice_derniere_lettre += 1;
+                            }
+
+                            for (int j = indice_derniere_lettre; j <= length_data; j++) {
+                                mot = "";
                                 while (phrase[indice_derniere_lettre] != ' ') {
                                     mot += phrase[indice_derniere_lettre];
                                     indice_derniere_lettre += 1;
                                 }
+
                                 indice_derniere_lettre += 1;
                                 NewFile.println(mot);
                             }
