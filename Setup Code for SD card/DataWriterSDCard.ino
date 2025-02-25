@@ -3,7 +3,7 @@
 #include <ctype.h>
 
 const int CS_pin = 43;
-int length_data = 9; // nombre d'éléments dans une ligne
+int length_data = 8; // nombre d'éléments dans une ligne
 int nombre_total_ligne = 262; // nombre total de lignes qui vont être imprimées
 int num_ligne = 1; // Line number to read
 String phrase = "";
@@ -14,11 +14,6 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(9600);
 
-    if (SD.exists("DATA.txt")) {
-        Serial.println("File exists!");
-    } else {
-        Serial.println("File does not exist.");
-    }
 
 
     if (!SD.begin(CS_pin)) {
@@ -78,6 +73,7 @@ void loop() {
                 char lettre = firstWord[i];
                 if (!SD.exists(directoryPath + "/" + lettre)) {
                     SD.mkdir(directoryPath + "/" + lettre);
+                    delay(10);
                     Serial.println("New directory at " + directoryPath + " was created named " + lettre);
                 } else {
                     Serial.println("Directory of path " + directoryPath + "/" + lettre + " already existed");
@@ -89,6 +85,7 @@ void loop() {
                     // Creation du fichier dans chaque nested directory sauf le premier
                     if (!SD.exists(directoryPath + "/" + firstWord)){
                         File NewFile = SD.open(directoryPath + "/" + firstWord, FILE_WRITE);
+                        delay(10);
     
                         if (NewFile) { // else l 87
                             Serial.println("Making of new file successful");
@@ -102,8 +99,10 @@ void loop() {
 
                             phrase.remove(phrase.length() - 1);
                             NewFile.println(mot);
+                            delay(10);
+                            Serial.println("Added to file : " + mot);
 
-                            for (int j = indice_derniere_lettre; j <= length_data; j++) {
+                            for (int j = 2; j <= length_data; j++) {
                                 mot = "";
                                 while (phrase[indice_derniere_lettre] != ' ') {
                                     mot += phrase[indice_derniere_lettre];
@@ -112,8 +111,11 @@ void loop() {
 
                                 indice_derniere_lettre += 1;
                                 NewFile.println(mot);
+                                delay(10);
+                                Serial.println("Added to file : " + mot);
                             }
                             NewFile.close();
+                            delay(10);
     
                         } else {
                             Serial.println("Error making new file");
