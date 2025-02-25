@@ -2,19 +2,18 @@
 #include <SPI.h>
 #include <ctype.h>
 
+//be sure that you use the Data to txt.py program to convert the python lists as otherwise this won't work
+
 const int CS_pin = 43;
-int length_data = 8; // nombre d'éléments dans une ligne
-int nombre_total_ligne = 262; // nombre total de lignes qui vont être imprimées
+int length_data = 8; // Number of elements in a line, one was to add (or remove) tracked food metric simply set this var to the number of different info (including name)
+int nombre_total_ligne = 262; // Total number of lines to be printed
 int num_ligne = 1; // Line number to read
 String phrase = "";
 String mot = "";
 
-
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(9600);
-
-
 
     if (!SD.begin(CS_pin)) {
         Serial.println("Initialization failed!");
@@ -25,103 +24,91 @@ void setup() {
 }
 
 void loop() {
-    // Isolement de la première phrase
-    if (num_ligne <= nombre_total_ligne) { //else l 95
+    if (num_ligne <= nombre_total_ligne) {
         File dataFile = SD.open("DATA.txt", FILE_READ);
 
-        if (dataFile) { // else line 90
-            int ligne_actuelle = 1; // Current line counter
+        if (dataFile) {
+            int ligne_actuelle = 1;
             phrase = "";
 
             while (dataFile.available()) {
                 char c = dataFile.read();
 
                 if (c == '\n') {
-                    // If we reach the desired line number, stop reading
                     if (ligne_actuelle == num_ligne) break;
-                    // Move to the next line
                     ligne_actuelle++;
                     phrase = ""; // Reset phrase for the next line
                 } else if (ligne_actuelle == num_ligne) {
-                    // Append character to phrase if we’re on the desired line
-                    phrase += c;
+                    phrase += c; // Append character to phrase
                 }
             }
-
             dataFile.close();
 
-            // Isolement du premier mot
+            // Process the first word
             String firstWord = "";
             for (char c : phrase) {
-                if (isdigit(c)) {
-                  firstWord.remove(firstWord.length() - 1);
-                  break;
-                } // Stop when a number is encountered
+                if (isdigit(c)) break; // Stop when a number is encountered
                 if (firstWord.length() < 8) {
-                    if (c == ' ') { 
-                      firstWord += '_';
-                    } else {
-                      firstWord += c; // Add each character to firstWord
-                    }
+                    if (c == ' ') firstWord += '_';  // Replace space with underscore
+                    else firstWord += c; // Add each character to firstWord
                 }
             }
 
             String directoryPath = "";
-
             for (int i = 0; i < firstWord.length(); i++) {
-                // Creation des différents sous répertoires
-                char lettre = firstWord[i];
-                if (!SD.exists(directoryPath + "/" + lettre)) {
-                    SD.mkdir(directoryPath + "/" + lettre);
-                    delay(10);
-                    Serial.println("New directory at " + directoryPath + " was created named " + lettre);
-                } else {
-                    Serial.println("Directory of path " + directoryPath + "/" + lettre + " already existed");
-                }
-                directoryPath = directoryPath + "/" + lettre;
+                char letter = firstWord[i];
+                directoryPath += "/" + String(letter);
 
-                // Only create the file starting from the second letter
+                if (!SD.exists(directoryPath)) {
+                    SD.mkdir(directoryPath);  // Create the directory if it doesn't exist
+                    delay(10);
+                    Serial.println("New directory created at: " + directoryPath);
+                } else {
+                    Serial.println("Directory already exists: " + directoryPath);
+                }
+
+                // Only start file creation starting from the second letter
                 if (i != 0) {
-                    // Creation du fichier dans chaque nested directory sauf le premier
-                    if (!SD.exists(directoryPath + "/" + firstWord)){
+                    if (!SD.exists(directoryPath + "/" + firstWord)) {
                         File NewFile = SD.open(directoryPath + "/" + firstWord, FILE_WRITE);
                         delay(10);
-    
-                        if (NewFile) { // else l 87
-                            Serial.println("Making of new file successful");
-                            int indice_derniere_lettre = 0;
+                        if (NewFile) {
+                            Serial.println("New file created successfully");
+
+                            int last_char_index = 0;
                             mot = "";
 
-                            while (!isdigit(phrase[indice_derniere_lettre])) {
-                                mot += phrase[indice_derniere_lettre];
-                                indice_derniere_lettre += 1;
+                            // Collect words until a number is encountered
+                            while (!isdigit(phrase[last_char_index])) {
+                                mot += phrase[last_char_index];
+                                last_char_index++;
                             }
 
-                            phrase.remove(phrase.length() - 1);
-                            NewFile.println(mot);
+                            NewFile.println(mot);  // Write the first word to the file
+                            NewFile.flush();
                             delay(10);
-                            Serial.println("Added to file : " + mot);
+                            Serial.println("Added to file: " + mot);
 
                             for (int j = 2; j <= length_data; j++) {
                                 mot = "";
-                                while (phrase[indice_derniere_lettre] != ' ') {
-                                    mot += phrase[indice_derniere_lettre];
-                                    indice_derniere_lettre += 1;
+                                while (phrase[last_char_index] != ' ' && last_char_index < phrase.length()) {
+                                    mot += phrase[last_char_index];
+                                    last_char_index++;
                                 }
-
-                                indice_derniere_lettre += 1;
-                                NewFile.println(mot);
+                                last_char_index++;  // Skip space
+                                NewFile.println(mot);  // Write next data to file
+                                NewFile.flush();
                                 delay(10);
-                                Serial.println("Added to file : " + mot);
+                                Serial.println("Added to file: " + mot);
                             }
+
                             NewFile.close();
                             delay(10);
-    
                         } else {
-                            Serial.println("Error making new file");
+                            Serial.println("Error creating new file.");
                         }
                     } else {
-                        Serial.println("File existed already");
+                        Serial.println("File already exists.");
                     }
                 }
             }
@@ -130,7 +117,7 @@ void loop() {
             Serial.println("Error opening file.");
         }
 
-        num_ligne += 1; // Increment line number for the next loop iteration
+        num_ligne++; // Move to the next line for the next loop
     } else {
         Serial.println("Finished!");
         while (true) {
