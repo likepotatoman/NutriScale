@@ -2,10 +2,8 @@
 #include <SPI.h>
 #include <ctype.h>
 
-//be sure that you use the Data to txt.py program to convert the python lists as otherwise this won't work
-
 const int CS_pin = 43;
-int length_data = 8; // Number of elements in a line, one was to add (or remove) tracked food metric simply set this var to the number of different info (including name)
+int length_data = 8; // Number of elements in a line
 int nombre_total_ligne = 262; // Total number of lines to be printed
 int num_ligne = 1; // Line number to read
 String phrase = "";
